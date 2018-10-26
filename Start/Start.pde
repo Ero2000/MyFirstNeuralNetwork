@@ -103,7 +103,6 @@ void createGoal(int Cx, int Cy, int high, int wide){
 /*
 //Used to move the initial testee
 void keyPressed(){
-  zoneDetection(testees[0]);
   if (key == CODED){
     if (keyCode == UP) {
       //print("Key pressed");
@@ -143,10 +142,10 @@ void update(int f){
     else {
       print(Teacher.commands[i][f]);
       if (Teacher.commands[i][f] == 1){
-        Teacher.testees[i].angle+=5;
+        Teacher.testees[i].angle+=1;
       }
       if (Teacher.commands[i][f] == 2){
-        Teacher.testees[i].angle-=5;  
+        Teacher.testees[i].angle-=1;  
       }
       Teacher.testees[i].x += Teacher.testees[i].speed * cos(radians(Teacher.testees[i].angle));
       Teacher.testees[i].y += Teacher.testees[i].speed * sin(radians(Teacher.testees[i].angle));

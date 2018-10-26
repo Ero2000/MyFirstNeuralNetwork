@@ -39,7 +39,7 @@ class Tester {
 
     testees = new Testee[25];
     for (int i = 0; i < testees.length; i++){
-      testees[i] = new Testee(100,300,5,colors[i]);  
+      testees[i] = new Testee(100,300,1,colors[i]);  
     }
   }
   
