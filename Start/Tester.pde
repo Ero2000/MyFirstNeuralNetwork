@@ -62,7 +62,7 @@ class Tester {
   int[] mutateCommands(int[] orders){
     int[] ret = new int[orders.length];
     for (int i = 0; i < orders.length; i++){
-      if ((int)random(100) > 1){ //10% chance of mutation
+      if ((int)random(10) > 1){ //10% chance of mutation
         ret[i] = orders[i];  
       }
       else {
@@ -76,7 +76,8 @@ class Tester {
     int ret = 0;
     for (int i = 1; i < testees.length; i++){
       if (distance(testees[i].x, testees[i].y, goalx+(goalw/2), goaly+(goalh/2)) < 
-      distance(testees[ret].x, testees[ret].y, goalx+(goalw/2), goaly+(goalh/2))){
+      distance(testees[ret].x, testees[ret].y, goalx+(goalw/2), goaly+(goalh/2)) &&
+      !testees[i].diedFirst){
         ret = i;
       }
     }

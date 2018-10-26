@@ -3,6 +3,7 @@ class Testee {
   float angle; //Direction facing
   int speed;
   color c;
+  boolean diedFirst;
   
   //Default Constructor
   Testee() {
@@ -11,6 +12,7 @@ class Testee {
     angle = 0;
     speed = 1;
     c = color(255, 0, 0);
+    diedFirst = false;
   }
   
   //Custom Constructor
@@ -20,6 +22,7 @@ class Testee {
     speed = howFast;
     c = color(red, green, blue);
     angle = 0;
+    diedFirst = false;
   }
   
   Testee(float Cx, float Cy, int howFast, color e){
@@ -28,6 +31,7 @@ class Testee {
     speed = howFast;
     c = e;
     angle = 0;
+    diedFirst = false;
   }
   
   void display(){

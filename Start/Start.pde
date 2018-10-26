@@ -132,6 +132,9 @@ void update(int f){
   int done = 0;
   for (int i = 0; i < Teacher.commands.length; i++){
     if (zoneDetection(Teacher.testees[i]) == 1){
+      if (done < 10){
+        Teacher.testees[i].diedFirst = true;
+      }
       done++;
     }
     else if (zoneDetection(Teacher.testees[i]) == 2){
