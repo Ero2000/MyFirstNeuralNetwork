@@ -23,15 +23,17 @@ class Testee {
   }
   
   void display(){
-    translate(x,y);
-    rotate(radians(angle));
-    beginShape();
-      vertex(0, 0);
-      vertex(-20,7);
-      vertex(-15,0);
-      vertex(-20,-7);
-      fill(c);
-    endShape(CLOSE);
+    pushMatrix();
+      translate(x,y);
+      rotate(radians(angle));
+      beginShape();
+        vertex(0, 0);
+        vertex(-20,7);
+        vertex(-15,0);
+        vertex(-20,-7);
+        fill(c);
+      endShape(CLOSE);
+    popMatrix();
   }
  
   //x+(15*cos(angle))/sqrt((x+(15*cos(angle)))*(x+(15*cos(angle)))), 
