@@ -70,8 +70,8 @@ void draw(){
   currentFrame++;
   if (currentFrame == 1000){
     print("New Test");
-    Teacher.nextTest();
     Teacher.resetTestees();
+    Teacher.nextTest();
     currentFrame = 0;
     currentGeneration++;
   }
@@ -131,16 +131,16 @@ void update(int f){
   int done = 0;
   for (int i = 0; i < Teacher.commands.length; i++){
     if (zoneDetection(Teacher.testees[i]) == 1){
-      if (done < 10){
+      if (done < 15){
         Teacher.testees[i].diedFirst = true;
       }
       done++;
     }
     else if (zoneDetection(Teacher.testees[i]) == 2){
-      done = testees.length;
+      done = Teacher.testees.length;
     }
     else {
-      print(Teacher.commands[i][f]);
+      //print(Teacher.commands[i][f]);
       if (Teacher.commands[i][f] == 1){
         Teacher.testees[i].angle+=5;
       }

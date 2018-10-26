@@ -39,7 +39,7 @@ class Tester {
 
     testees = new Testee[25];
     for (int i = 0; i < testees.length; i++){
-      testees[i] = new Testee(100,300,1,colors[i]);  
+      testees[i] = new Testee(100,300,5,colors[i]);  
     }
   }
   
@@ -48,6 +48,7 @@ class Tester {
       testees[i].x = 100;
       testees[i].y = 300;
       testees[i].angle = 0;
+      testees[i].diedFirst = false;
     }
   }
   
@@ -62,11 +63,13 @@ class Tester {
   int[] mutateCommands(int[] orders){
     int[] ret = new int[orders.length];
     for (int i = 0; i < orders.length; i++){
-      if ((int)random(10) > 1){ //10% chance of mutation
-        ret[i] = orders[i];  
+      if ((int)random(10) > 0){ //10% chance of mutation
+        ret[i] = orders[i];
+        //print("same");
       }
       else {
         ret[i] = (int)random(3);
+        //print("mutate");
       }
     }
     return ret;
@@ -85,8 +88,12 @@ class Tester {
   }
   
   void nextTest(){
+    print("Winner: " + grading());
     commands[0] = commands[grading()]; //the first value now = to the best testee
+    //print(commands[0].length);
+    //print(commands[grading()].length);
     for (int i = 1; i < testees.length; i++){
+      //print(commands[0].length);
       commands[i] = mutateCommands(commands[0]);
     }
   }
