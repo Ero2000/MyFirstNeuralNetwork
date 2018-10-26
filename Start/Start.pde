@@ -12,7 +12,7 @@ int goalh = 40;
 //Center of goal for comparer, goalx+goalw/2, goaly+goalh/2
 
 int currentFrame;
-
+int currentGeneration;
 
 void setup() {
   size(1000, 600);
@@ -23,6 +23,7 @@ void setup() {
   Teacher.initialTest();
   
   currentFrame = 0;
+  currentGeneration = 1;
   
   grid = new Coordinates[width][height];
   for (int i = 0; i < width; i++){
@@ -42,14 +43,15 @@ void setup() {
   obstacles[0].high = 500;
   createObstacle(obstacles[0].x,obstacles[0].y,obstacles[0].wide,obstacles[0].high);
   
-  
   //Create Goal
   createGoal(goalx,goaly,goalw,goalh);
 }
 
 void draw(){
-  update(currentFrame);
   background(200); //Refreshes the screen
+  
+  update(currentFrame);
+  text("Current Generation: " + currentGeneration + "\nCurrent Frame: " + currentFrame + "/1000", 10, 20);
   
   //Draws each testee
   for (int i = 0; i < Teacher.testees.length; i++){
@@ -70,6 +72,7 @@ void draw(){
     Teacher.nextTest();
     Teacher.resetTestees();
     currentFrame = 0;
+    currentGeneration++;
   }
 }
 
@@ -125,38 +128,51 @@ void keyPressed(){
 */
 
 void update(int f){
+  int done = 0;
   for (int i = 0; i < Teacher.commands.length; i++){
-    print(Teacher.commands[i][f]);
-    if (Teacher.commands[i][f] == 2){
-      Teacher.testees[i].angle+=5;
+    if (zoneDetection(Teacher.testees[i]) == 1){
+      done++;
     }
-    else if (Teacher.commands[i][f] == 3){
-      Teacher.testees[i].angle-=5;  
+    else if (zoneDetection(Teacher.testees[i]) == 2){
+      done = testees.length;
     }
-    Teacher.testees[i].x += Teacher.testees[i].speed * cos(radians(Teacher.testees[i].angle));
-    Teacher.testees[i].y += Teacher.testees[i].speed * sin(radians(Teacher.testees[i].angle));
+    else {
+      print(Teacher.commands[i][f]);
+      if (Teacher.commands[i][f] == 2){
+        Teacher.testees[i].angle+=5;
+      }
+      else if (Teacher.commands[i][f] == 3){
+        Teacher.testees[i].angle-=5;  
+      }
+      Teacher.testees[i].x += Teacher.testees[i].speed * cos(radians(Teacher.testees[i].angle));
+      Teacher.testees[i].y += Teacher.testees[i].speed * sin(radians(Teacher.testees[i].angle));
+    }
+  }
+  if (done == Teacher.testees.length){
+    currentFrame = Teacher.commands[0].length;  
   }
 }
 
-void zoneDetection(Testee t){
+int zoneDetection(Testee t){
   //Checks if it's at the boundaries of the world
   if (t.x <= 0){
-    t.x = 0;  
+    return 1;  
   }
   else if (t.x >= width){
-    t.x = width;  
+    return 1;
   }
   if (t.y <= 0){
-    t.y = 0;
+    return 1;
   }
   else if (t.y >= height){
-    t.y = height;  
+    return 1;  
   }
     
   if (grid[(int)t.x][(int)t.y].isObstacle){
-    print("OW!");
+    return 1;
   }
   else if (grid[(int)t.x][(int)t.y].isGoal){
-    print("GOAL!");  
+    return 2;  
   }
+  return 0;
 }
