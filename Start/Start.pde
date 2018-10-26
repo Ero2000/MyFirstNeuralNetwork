@@ -66,6 +66,11 @@ void draw(){
   rect(goalx,goaly,goalw,goalh);
   
   currentFrame++;
+  if (currentFrame == 1000){
+    Teacher.nextTest();
+    Teacher.resetTestees();
+    currentFrame = 0;
+  }
 }
 
 //Creates rectangles from top left corner

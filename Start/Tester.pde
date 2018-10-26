@@ -43,6 +43,15 @@ class Tester {
     }
   }
   
+  void resetTestees(){
+    for (int i = 0; i < testees.length; i++){
+      testees[i].x = 100;
+      testees[i].y = 300;
+      testees[i].speed = 1;
+      testees[i].angle = 0;
+    }
+  }
+  
   void initialTest(){
     for (int i = 0; i < commands[0].length; i++){
       for (int j = 0; j < commands.length; j++){
