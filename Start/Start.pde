@@ -41,7 +41,7 @@ void setup() {
   obstacles[0].y = 50;
   obstacles[0].wide = 50;
   obstacles[0].high = 500;
-  createObstacle(obstacles[0].x,obstacles[0].y,obstacles[0].wide,obstacles[0].high);
+  //createObstacle(obstacles[0].x,obstacles[0].y,obstacles[0].wide,obstacles[0].high);
   
   //Create Goal
   createGoal(goalx,goaly,goalw,goalh);
@@ -138,6 +138,7 @@ void update(int f){
     }
     else if (zoneDetection(Teacher.testees[i]) == 2){
       done = Teacher.testees.length;
+      i = Teacher.commands.length;
     }
     else {
       //print(Teacher.commands[i][f]);
