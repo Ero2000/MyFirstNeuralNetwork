@@ -39,7 +39,7 @@ class Tester {
 
     testees = new Testee[25];
     for (int i = 0; i < testees.length; i++){
-      testees[i] = new Testee(100,300,1,colors[i]);  
+      testees[i] = new Testee(100,300,5,colors[i]);  
     }
   }
   
@@ -47,7 +47,6 @@ class Tester {
     for (int i = 0; i < testees.length; i++){
       testees[i].x = 100;
       testees[i].y = 300;
-      testees[i].speed = 1;
       testees[i].angle = 0;
     }
   }
@@ -63,7 +62,7 @@ class Tester {
   int[] mutateCommands(int[] orders){
     int[] ret = new int[orders.length];
     for (int i = 0; i < orders.length; i++){
-      if ((int)random(10) > 1){ //10% chance of mutation
+      if ((int)random(100) > 1){ //10% chance of mutation
         ret[i] = orders[i];  
       }
       else {
@@ -76,8 +75,8 @@ class Tester {
   int grading(){
     int ret = 0;
     for (int i = 1; i < testees.length; i++){
-      if (distance(testees[i].x, testees[i].y, goalx+goalw/2, goaly+goalh/2) > 
-      distance(testees[ret].x, testees[ret].y, goalx+goalw/2, goaly+goalh/2)){
+      if (distance(testees[i].x, testees[i].y, goalx+(goalw/2), goaly+(goalh/2)) < 
+      distance(testees[ret].x, testees[ret].y, goalx+(goalw/2), goaly+(goalh/2))){
         ret = i;
       }
     }

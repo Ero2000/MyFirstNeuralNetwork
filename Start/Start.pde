@@ -69,6 +69,7 @@ void draw(){
   
   currentFrame++;
   if (currentFrame == 1000){
+    print("New Test");
     Teacher.nextTest();
     Teacher.resetTestees();
     currentFrame = 0;
@@ -138,10 +139,10 @@ void update(int f){
     }
     else {
       print(Teacher.commands[i][f]);
-      if (Teacher.commands[i][f] == 2){
+      if (Teacher.commands[i][f] == 1){
         Teacher.testees[i].angle+=5;
       }
-      else if (Teacher.commands[i][f] == 3){
+      if (Teacher.commands[i][f] == 2){
         Teacher.testees[i].angle-=5;  
       }
       Teacher.testees[i].x += Teacher.testees[i].speed * cos(radians(Teacher.testees[i].angle));
@@ -149,7 +150,10 @@ void update(int f){
     }
   }
   if (done == Teacher.testees.length){
-    currentFrame = Teacher.commands[0].length;  
+    Teacher.nextTest();
+    Teacher.resetTestees();
+    currentFrame = 0;
+    currentGeneration++;
   }
 }
 
