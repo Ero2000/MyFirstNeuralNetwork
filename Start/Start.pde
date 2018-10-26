@@ -2,18 +2,27 @@
 Coordinates[][] grid;
 Testee[] testees;
 Obstacles[] obstacles;
+Tester Teacher;
 
 //Properties
 int goalx = 800;
 int goaly = 280;
 int goalw = 40;
 int goalh = 40;
+//Center of goal for comparer, goalx+goalw/2, goaly+goalh/2
+
+int currentFrame;
 
 
 void setup() {
   size(1000, 600);
   background(200);
   frameRate(60);
+  
+  Teacher = new Tester();
+  Teacher.initialTest();
+  
+  currentFrame = 0;
   
   grid = new Coordinates[width][height];
   for (int i = 0; i < width; i++){
@@ -33,18 +42,18 @@ void setup() {
   obstacles[0].high = 500;
   createObstacle(obstacles[0].x,obstacles[0].y,obstacles[0].wide,obstacles[0].high);
   
-  testees = new Testee[1];
-  testees[0] = new Testee();
+  
   //Create Goal
   createGoal(goalx,goaly,goalw,goalh);
 }
 
 void draw(){
+  update(currentFrame);
   background(200); //Refreshes the screen
   
   //Draws each testee
-  for (int i = 0; i < testees.length; i++){
-    testees[i].display();  
+  for (int i = 0; i < Teacher.testees.length; i++){
+    Teacher.testees[i].display();  
   }
   
   //Obstacles
@@ -55,6 +64,8 @@ void draw(){
   //Goals
   fill(255);
   rect(goalx,goaly,goalw,goalh);
+  
+  currentFrame++;
 }
 
 //Creates rectangles from top left corner
@@ -80,7 +91,8 @@ void createGoal(int Cx, int Cy, int high, int wide){
 }
 
 
-//Used to show that moving works
+/*
+//Used to move the initial testee
 void keyPressed(){
   zoneDetection(testees[0]);
   if (key == CODED){
@@ -103,6 +115,21 @@ void keyPressed(){
         testees[0].angle = 360;  
       }
     }
+  }
+}
+*/
+
+void update(int f){
+  for (int i = 0; i < Teacher.commands.length; i++){
+    print(Teacher.commands[i][f]);
+    if (Teacher.commands[i][f] == 2){
+      Teacher.testees[i].angle+=5;
+    }
+    else if (Teacher.commands[i][f] == 3){
+      Teacher.testees[i].angle-=5;  
+    }
+    Teacher.testees[i].x += Teacher.testees[i].speed * cos(radians(Teacher.testees[i].angle));
+    Teacher.testees[i].y += Teacher.testees[i].speed * sin(radians(Teacher.testees[i].angle));
   }
 }
 

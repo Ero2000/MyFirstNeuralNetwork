@@ -9,7 +9,7 @@ class Testee {
     x = 100;
     y = 300;
     angle = 0;
-    speed = 10;
+    speed = 1;
     c = color(255, 0, 0);
   }
   
@@ -19,6 +19,14 @@ class Testee {
     y = Cy;
     speed = howFast;
     c = color(red, green, blue);
+    angle = 0;
+  }
+  
+  Testee(float Cx, float Cy, int howFast, color e){
+    x = Cx;
+    y = Cy;
+    speed = howFast;
+    c = e;
     angle = 0;
   }
   
