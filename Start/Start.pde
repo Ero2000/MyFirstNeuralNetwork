@@ -22,6 +22,7 @@ void setup() {
     }
   }
   
+  //Create Obstacles
   obstacles = new Obstacles[10];
   for (int i = 0; i < 10; i++){
     obstacles[i] = new Obstacles();  
@@ -30,11 +31,10 @@ void setup() {
   obstacles[0].y = 50;
   obstacles[0].wide = 50;
   obstacles[0].high = 500;
+  createObstacle(obstacles[0].x,obstacles[0].y,obstacles[0].wide,obstacles[0].high);
   
   testees = new Testee[1];
   testees[0] = new Testee();
-  
-  //Create Obstacles
   //Create Goal
   createGoal(goalx,goaly,goalw,goalh);
 }
@@ -82,25 +82,49 @@ void createGoal(int Cx, int Cy, int high, int wide){
 
 //Used to show that moving works
 void keyPressed(){
+  zoneDetection(testees[0]);
   if (key == CODED){
     if (keyCode == UP) {
-      print("Key pressed");
+      //print("Key pressed");
       testees[0].x += testees[0].speed * cos(radians(testees[0].angle));
       testees[0].y += testees[0].speed * sin(radians(testees[0].angle));
     }
     if (keyCode == LEFT) {
       testees[0].angle++;
-      print("Key pressed");
+      //print("Key pressed");
       if (testees[0].angle == 360){
         testees[0].angle = 0;
       }
     }
     if (keyCode == RIGHT) {
       testees[0].angle--;
-      print("Key pressed");
+      //print("Key pressed");
       if (testees[0].angle == 0){
         testees[0].angle = 360;  
       }
     }
+  }
+}
+
+void zoneDetection(Testee t){
+  //Checks if it's at the boundaries of the world
+  if (t.x <= 0){
+    t.x = 0;  
+  }
+  else if (t.x >= width){
+    t.x = width;  
+  }
+  if (t.y <= 0){
+    t.y = 0;
+  }
+  else if (t.y >= height){
+    t.y = height;  
+  }
+    
+  if (grid[(int)t.x][(int)t.y].isObstacle){
+    print("OW!");
+  }
+  else if (grid[(int)t.x][(int)t.y].isGoal){
+    print("GOAL!");  
   }
 }

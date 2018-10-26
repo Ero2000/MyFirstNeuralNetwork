@@ -9,7 +9,7 @@ class Testee {
     x = 100;
     y = 300;
     angle = 0;
-    speed = 1;
+    speed = 10;
     c = color(255, 0, 0);
   }
   
