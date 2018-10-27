@@ -43,6 +43,12 @@ class Tester {
     }
   }
   
+  Tester(Testee[] testers){
+    this();
+    
+    testees = testers;
+  }
+  /*
   void resetTestees(){
     for (int i = 0; i < testees.length; i++){
       testees[i].x = 100;
@@ -51,7 +57,8 @@ class Tester {
       testees[i].diedFirst = false;
     }
   }
-  
+  */
+  /*
   void initialTest(){
     for (int i = 0; i < commands[0].length; i++){
       for (int j = 0; j < commands.length; j++){
@@ -59,7 +66,8 @@ class Tester {
       }
     }
   }
-  
+  */
+  /*
   int[] mutateCommands(int[] orders){
     int[] ret = new int[orders.length];
     for (int i = 0; i < orders.length; i++){
@@ -74,19 +82,20 @@ class Tester {
     }
     return ret;
   }
-  
-  int grading(){
+  */
+  int grading(Testee[] testees){
     int ret = 0;
     for (int i = 1; i < testees.length; i++){
-      if (distance(testees[i].x, testees[i].y, goalx+(goalw/2), goaly+(goalh/2)) < 
-      distance(testees[ret].x, testees[ret].y, goalx+(goalw/2), goaly+(goalh/2)) &&
-      !testees[i].diedFirst){
+      if (testees[i].timeOfDeath/distance(testees[i].x, testees[i].y, goalx+(goalw/2), goaly+(goalh/2)) > 
+      testees[ret].timeOfDeath/distance(testees[ret].x, testees[ret].y, goalx+(goalw/2), goaly+(goalh/2))
+      ){
         ret = i;
       }
     }
     return ret;
   }
   
+  /*
   void nextTest(){
     print("Winner: " + grading());
     commands[0] = commands[grading()]; //the first value now = to the best testee
@@ -97,6 +106,7 @@ class Tester {
       commands[i] = mutateCommands(commands[0]);
     }
   }
+  */
   
   float distance(float x1, float y1, float x2, float y2){
     return sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2));  

@@ -3,6 +3,7 @@ Coordinates[][] grid;
 Testee[] testees;
 Obstacles[] obstacles;
 Tester Teacher;
+Maker Builder;
 
 //Properties
 int goalx = 800;
@@ -10,6 +11,9 @@ int goaly = 280;
 int goalw = 40;
 int goalh = 40;
 //Center of goal for comparer, goalx+goalw/2, goaly+goalh/2
+
+int spawnX = 200;
+int spawnY = 300;
 
 int currentFrame;
 int currentGeneration;
@@ -20,7 +24,8 @@ void setup() {
   frameRate(60);
   
   Teacher = new Tester();
-  Teacher.initialTest();
+  Builder = new Maker();
+  testees = Builder.startBuild();
   
   currentFrame = 0;
   currentGeneration = 1;
@@ -41,7 +46,7 @@ void setup() {
   obstacles[0].y = 50;
   obstacles[0].wide = 50;
   obstacles[0].high = 500;
-  //createObstacle(obstacles[0].x,obstacles[0].y,obstacles[0].wide,obstacles[0].high);
+  createObstacle(obstacles[0].x,obstacles[0].y,obstacles[0].wide,obstacles[0].high);
   
   //Create Goal
   createGoal(goalx,goaly,goalw,goalh);
@@ -51,11 +56,11 @@ void draw(){
   background(200); //Refreshes the screen
   
   update(currentFrame);
-  text("Current Generation: " + currentGeneration + "\nCurrent Frame: " + currentFrame + "/1000", 10, 20);
+  text("Current Generation: " + currentGeneration + "\nCurrent Frame: " + currentFrame + "/" + Builder.commands[0].length, 10, 20);
   
   //Draws each testee
-  for (int i = 0; i < Teacher.testees.length; i++){
-    Teacher.testees[i].display();  
+  for (int i = 0; i < testees.length; i++){
+    testees[i].display();  
   }
   
   //Obstacles
@@ -68,10 +73,9 @@ void draw(){
   rect(goalx,goaly,goalw,goalh);
   
   currentFrame++;
-  if (currentFrame == 1000){
-    print("New Test");
-    Teacher.resetTestees();
-    Teacher.nextTest();
+  if (currentFrame == Builder.commands[0].length){
+    Builder.nextGeneration(Teacher.grading(testees));
+    resetTestees();
     currentFrame = 0;
     currentGeneration++;
   }
@@ -129,50 +133,60 @@ void keyPressed(){
 
 void update(int f){
   int done = 0;
-  for (int i = 0; i < Teacher.commands.length; i++){
-    if (zoneDetection(Teacher.testees[i]) == 1){
-      if (done < 15){
-        Teacher.testees[i].diedFirst = true;
-      }
+  int wingding = -1;
+  boolean winner = false;
+  for (int i = 0; i < Builder.commands.length; i++){
+    if (zoneDetection(testees[i]) == 1){
       done++;
     }
-    else if (zoneDetection(Teacher.testees[i]) == 2){
-      done = Teacher.testees.length;
-      i = Teacher.commands.length;
+    else if (zoneDetection(testees[i]) == 2){
+      wingding = i;
+      i = Builder.commands.length;
+      winner = true;
     }
     else {
-      //print(Teacher.commands[i][f]);
-      if (Teacher.commands[i][f] == 1){
-        Teacher.testees[i].angle+=5;
+      if (Builder.commands[i][f] == 1){
+        testees[i].angle+=5;
       }
-      if (Teacher.commands[i][f] == 2){
-        Teacher.testees[i].angle-=5;  
+      if (Builder.commands[i][f] == 2){
+        testees[i].angle-=5;  
       }
-      Teacher.testees[i].x += Teacher.testees[i].speed * cos(radians(Teacher.testees[i].angle));
-      Teacher.testees[i].y += Teacher.testees[i].speed * sin(radians(Teacher.testees[i].angle));
+      testees[i].x += testees[i].speed * cos(radians(testees[i].angle));
+      testees[i].y += testees[i].speed * sin(radians(testees[i].angle));
+      testees[i].timeOfDeath++;
     }
   }
-  if (done == Teacher.testees.length){
-    Teacher.nextTest();
-    Teacher.resetTestees();
+  if (winner){
+    Builder.nextGeneration(wingding);
+    resetTestees();
+    currentFrame = 0;
+    currentGeneration++;
+  }
+  else if (done == testees.length){
+    Builder.nextGeneration(Teacher.grading(testees));
+    resetTestees();
     currentFrame = 0;
     currentGeneration++;
   }
 }
 
+
+void resetTestees(){
+  for (int i = 0; i < testees.length; i++){
+    testees[i].x = spawnX;
+    testees[i].y = spawnY;
+    testees[i].angle = 0;
+    testees[i].timeOfDeath = 0;
+  }
+}
+  
 int zoneDetection(Testee t){
   //Checks if it's at the boundaries of the world
-  if (t.x <= 0){
+  if (t.x <= 0 || t.x >= width){
     return 1;  
   }
-  else if (t.x >= width){
+  if (t.y <= 0 || t.y >= height){
     return 1;
-  }
-  if (t.y <= 0){
-    return 1;
-  }
-  else if (t.y >= height){
-    return 1;  
   }
     
   if (grid[(int)t.x][(int)t.y].isObstacle){
