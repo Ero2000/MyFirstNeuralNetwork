@@ -50,13 +50,15 @@ class Maker {
   void nextGeneration(int alpha){
     print("Winner: " + alpha);
     print("End Points: " + testees[alpha].x + ", " + testees[alpha].y);
+    
+    float howMuchMutate = (int)(10*width/distance(testees[alpha].x,testees[alpha].y,goalx+goalw/2,goaly+goalh/2));
     //the first value now = to the best testee
     //print(commands[0].length);
     //print(commands[grading()].length);
     for (int i = 0; i < commands.length; i++){
       if (i != alpha){
         for (int a = 0; a < commands[i].length; a++){
-          if (random(10) > 1){
+          if (random(howMuchMutate) > 1){
             commands[i][a] = commands[alpha][a];  
           }
           else {
@@ -65,5 +67,9 @@ class Maker {
         }
       }
     }
+  }
+  
+  float distance(float x1, float y1, float x2, float y2){
+    return sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2));  
   }
 }
