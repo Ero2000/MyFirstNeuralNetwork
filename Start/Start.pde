@@ -48,6 +48,12 @@ void setup() {
   obstacles[0].high = 500;
   createObstacle(obstacles[0].x,obstacles[0].y,obstacles[0].wide,obstacles[0].high);
   
+  obstacles[1].x = 700;
+  obstacles[1].y = 200;
+  obstacles[1].wide = 50;
+  obstacles[1].high = 200;
+  createObstacle(obstacles[1].x,obstacles[1].y,obstacles[1].wide,obstacles[1].high);
+  
   //Create Goal
   createGoal(goalx,goaly,goalw,goalh);
 }

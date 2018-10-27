@@ -48,8 +48,8 @@ class Maker {
   }
   
   void nextGeneration(int alpha){
-    print("Winner: " + alpha);
-    print("End Points: " + testees[alpha].x + ", " + testees[alpha].y);
+    print("\nWinner: " + alpha);
+    print("\nEnd Points: " + testees[alpha].x + ", " + testees[alpha].y);
     
     float howMuchMutate = (int)(10*width/distance(testees[alpha].x,testees[alpha].y,goalx+goalw/2,goaly+goalh/2));
     //the first value now = to the best testee
