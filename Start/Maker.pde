@@ -3,7 +3,7 @@ class Maker {
   color[] colors;
   
   Maker(){
-    commands = new int[10][500];
+    commands = new int[100][1000];
     colors = new color[25];
     colors = new color[25];
     colors[0] = color (255,0,0);
@@ -40,9 +40,12 @@ class Maker {
       }
     }
     
+    color c;
+    
     Testee[] testees = new Testee[commands.length];
     for (int t = 0; t < testees.length; t++){
-      testees[t] = new Testee(spawnX,spawnY,3,colors[t]);  
+      c = color(random(256),random(256),random(256));
+      testees[t] = new Testee(spawnX,spawnY,3,c);  
     }
     return testees;
   }
